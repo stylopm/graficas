@@ -1,0 +1,12 @@
+.container-table{
+    padding: 10px;
+}
+
+.container-form{
+    padding: 10px;
+}
+
+.container{
+    display: flex;
+    justify-content: space-between; 
+}
