@@ -2,22 +2,22 @@ let urlData = "http://localhost:3000/data";
 const createDatas = () => {
   const name = document.getElementById("name").value;
   const grades = document.getElementById("grades").value;
-  if (name === ''){
-    alert('El campo nombre esta vacío');
-    return false; // Se pare la aplicación
+  if (name === "") {
+    alert("El campo nombre esta vacío");
+    return false; // Simage.pnge pare la aplicación
   }
-  if (grades === ''){
-    alert('El campo apellido esta vacío');
+  if (grades === "") {
+    alert("El campo apellido esta vacío");
     return false;
   }
 
-  if (name.length < 3){
-    alert('El campo nombre debe tener mínimo 3 caracteres');
+  if (name.length < 3) {
+    alert("El campo nombre debe tener mínimo 3 caracteres");
     return false;
   }
 
-  if (grades > 10){
-    alert('El campo califacion debe tener mínimo 10');
+  if (grades > 10) {
+    alert("El campo califacion debe tener mínimo 10");
     return false;
   }
   const newData = {
@@ -28,33 +28,31 @@ const createDatas = () => {
   createData(newData);
 };
 
-    
 const createData = async (data) => {
   const resp = await fetch(urlData, {
     headers: {
       "Content-Type": "application/json",
     },
-    method: "POST",
+    method: "POST", // nuevos elementos
     body: JSON.stringify(data),
   });
   const customers = await resp.json();
   console.log(customers);
 };
 
-const getDatas = () => {
+const getDatas = () => {  // padre
   const books = async () => {
     const resp = await fetch(urlData, {
-      method: "GET",
+      method: "GET", // traer elementlos
     });
     const data = await resp.json();
-    showCustomers(data);
-    showChart(data);
-
+    showCustomers(data);// function
+    showChart(data);// function
   };
   books();
 };
 
-let showCustomers = (students) => {
+const showCustomers = (students) => { //hijo 1
   students.forEach((element, index) => {
     let texth1 = document.createElement("tr");
     texth1.innerHTML = `
@@ -65,41 +63,34 @@ let showCustomers = (students) => {
   });
 };
 
-getDatas();
-const ctx = document.getElementById('myChart').getContext('2d');
-
-
-const showChart =(data) => {
-
+const showChart = (data) => { //hijo 2
+  const ctx = document.getElementById("myChart").getContext("2d");
   let labels = [];
   let dataValue = [];
   console.log(data);
   let prom = 0;
-  data.forEach((data)=>{
-    labels.push(data.name)
+  data.forEach((data) => {
+    labels.push(data.name);
     dataValue.push(data.grades);
-    prom = prom + parseInt( data.grades);
- 
-  })
-
+    prom = prom + parseInt(data.grades);
+  });
   const dataChart = {
     labels: labels,
-    datasets: [{
-      label: `El promedio de la clase es ${prom/dataValue.length} `,
-      backgroundColor: 'rgb(76, 255, 51)',
-      borderColor: 'rgb(76, 255, 51)',
-      data: dataValue,
-    }]
+    datasets: [
+      {
+        label: `El promedio de la clase es ${prom / dataValue.length} `,
+        backgroundColor: "rgb(76, 255, 51)",
+        borderColor: "rgb(76, 255, 51)",
+        data: dataValue,
+      },
+    ],
   };
-
-
-const config = {
-    type: 'line',
+  const config = {
+    type: "line",
     data: dataChart,
-    options: {}
+    options: {},
   };
 
-
-const myChart = new Chart(ctx, config);
-
-}
+  const myChart = new Chart(ctx, config);
+};
+getDatas();
